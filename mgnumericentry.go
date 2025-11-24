@@ -281,7 +281,7 @@ func (e *MGNumericEntry) Decrement() {
 
 // ---------------- Combinação: Entry + SpinButtons ----------------
 
-func NewMGNumericEntryWithButtons(min, max, initial int) fyne.CanvasObject {
+func NewMGNumericEntryWithButtons(min, max, initial int) (fyne.CanvasObject, *MGNumericEntry) {
 	entry := NewMGNumericEntry(min, max, initial)
 
 	up := NewMGSmallButton("▲", func() { entry.Increment() })
@@ -290,5 +290,5 @@ func NewMGNumericEntryWithButtons(min, max, initial int) fyne.CanvasObject {
 	// container vertical com sem espaçamento extra
 	spin := container.NewVBox(up, down)
 	// estreitar margens internas: usar NewHBox com entry + spin
-	return container.NewHBox(entry, spin)
+	return container.NewHBox(entry, spin), entry
 }
