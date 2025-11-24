@@ -17,7 +17,8 @@ MGNumericEntry é um componente numérico para Fyne.
 ```
 import "github.com/mugomes/mgnumericentry"
 
-campoNumerico := mgnumericentry.NewMGNumericEntryWithButtons(0, 100, 20)
+campoNumerico, retorno := mgnumericentry.NewMGNumericEntryWithButtons(0, 100, 20)
+print(retorno.GetValue())
 ```
 
 ## Information
