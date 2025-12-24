@@ -27,7 +27,7 @@ print(retorno.GetValue())
 
 ## Requirement
 
- - Go 1.25.3
+ - Go 1.24.6
  - Fyne 2.7.0
 
 ## Support
