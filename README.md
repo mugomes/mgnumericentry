@@ -77,7 +77,7 @@ entry.SetValue(42)
 
 ## 🖥️ Compatibilidade
 
-* Go 1.24.6
+* Go 1.25.5
 * Fyne 2.7.1
 
 ---
