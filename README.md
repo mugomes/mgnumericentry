@@ -1,43 +1,100 @@
 # MGNumericEntry
 
-MGNumericEntry é um componente numérico para Fyne.
+Um componente customizado para **Fyne (Go)** que fornece um **campo de entrada numérica** com validação, limites (min/max), incremento/decremento e **botões de spin com auto-repeat** (pressionar e segurar).
 
-## Recursos
+Ideal para formulários, configurações e interfaces desktop que precisam de controle numérico preciso.
 
-- Limite o valor numérico (mínimo e máximo)
-- Adicione um valor inicial
-- Botão para incrementar e decrementar
+---
 
-## Instalação
+## ✨ Recursos
 
-`go get github.com/mugomes/mgnumericentry`
+* 🔢 Entrada **somente numérica**
+* ➕➖ Incremento e decremento com passo configurável
+* ⏫⏬ Botões de spin (▲ / ▼) com **auto-repeat**
+* 🔒 Respeita valores mínimos e máximos
+* 🔄 Callback `OnChanged` ao alterar valor
+* 🖱️ Suporte a mouse, teclado e foco
 
-## Exemplo
+---
 
+## 📦 Instalação
+
+```bash
+go get github.com/mugomes/mgnumericentry
 ```
-import "github.com/mugomes/mgnumericentry"
 
-campoNumerico, retorno := mgnumericentry.NewMGNumericEntryWithButtons(0, 100, 20)
-print(retorno.GetValue())
+---
+
+## 🚀 Uso básico
+
+### Numeric Entry simples
+
+```go
+entry := mgnumericentry.NewMGNumericEntry(0, 100, 10)
+
+entry.OnChanged = func(v int) {
+	fmt.Println("Valor alterado:", v)
+}
 ```
 
-## Information
+---
 
- - [Page MGNumericEntry](https://github.com/mugomes/mgnumericentry)
+### Numeric Entry com botões de incremento/decremento
 
-## Requirement
+```go
+box, entry := mgnumericentry.NewMGNumericEntryWithButtons(0, 100, 5)
 
- - Go 1.24.6
- - Fyne 2.7.0
+entry.OnChanged = func(v int) {
+	fmt.Println("Novo valor:", v)
+}
 
-## Support
+w.SetContent(box)
+```
 
-- GitHub: https://github.com/sponsors/mugomes
-- More: https://mugomes.github.io/apoie.html
+---
+
+## ⚙️ Propriedades principais
+
+### `MGNumericEntry`
+
+| Campo       | Tipo        | Descrição                      |
+| ----------- | ----------- | ------------------------------ |
+| `Min`       | `int`       | Valor mínimo permitido         |
+| `Max`       | `int`       | Valor máximo permitido         |
+| `Value`     | `int`       | Valor atual                    |
+| `OnChanged` | `func(int)` | Callback ao alterar o valor    |
+
+---
+
+## 🧠 Métodos úteis
+
+```go
+entry.GetValue()
+entry.SetValue(42)
+```
+
+---
+
+## 🖥️ Compatibilidade
+
+* Go 1.24.6
+* Fyne 2.7.1
+
+---
+
+## 👤 Autor
+
+**Murilo Gomes Julio**
+
+🔗 [https://mugomes.github.io](https://mugomes.github.io)
+
+📺 [https://youtube.com/@mugomesoficial](https://youtube.com/@mugomesoficial)
+
+---
 
 ## License
 
-Copyright (c) 2025 Murilo Gomes Julio
+Copyright (c) 2025-2026 Murilo Gomes Julio
 
 Licensed under the [MIT](https://github.com/mugomes/mgnumericentry/blob/main/LICENSE) license.
 
