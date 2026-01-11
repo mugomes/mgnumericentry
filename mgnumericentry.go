@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Murilo Gomes Julio
+// Copyright (C) 2025-2026 Murilo Gomes Julio
 // SPDX-License-Identifier: MIT
 
 // Site: https://mugomes.github.io
@@ -30,7 +30,7 @@ type MGSmallButton struct {
 	stop     chan struct{}
 }
 
-func NewMGSmallButton(label string, onTap func()) *MGSmallButton {
+func newMGSmallButton(label string, onTap func()) *MGSmallButton {
 	b := &MGSmallButton{
 		Label:    label,
 		OnTapped: onTap,
@@ -150,40 +150,40 @@ func (r *mgSmallButtonRenderer) Destroy()                     {}
 
 type MGNumericEntry struct {
 	widget.Entry
-	Min       int
-	Max       int
-	Step      int
-	Value     int
+	min       int
+	max       int
+	step      int
+	value     int
 	OnChanged func(int)
 }
 
 func NewMGNumericEntry(min, max, initial int) *MGNumericEntry {
 	e := &MGNumericEntry{
-		Min:   min,
-		Max:   max,
-		Step:  1,
-		Value: initial,
+		min:   min,
+		max:   max,
+		step:  1,
+		value: initial,
 	}
 	e.ExtendBaseWidget(e)
 
 	// set initial text (clamped)
 	if initial < min {
-		e.Value = min
+		e.value = min
 	} else if initial > max {
-		e.Value = max
+		e.value = max
 	} else {
-		e.Value = initial
+		e.value = initial
 	}
-	e.Entry.SetText(fmt.Sprintf("%d", e.Value))
+	e.Entry.SetText(fmt.Sprintf("%d", e.value))
 
 	return e
 }
 
 // Permite apenas digitação de dígitos e sinal '-' (se min < 0)
 func (e *MGNumericEntry) TypedRune(r rune) {
-	// permitir digitar '-' só no início e quando Min < 0
+	// permitir digitar '-' só no início e quando min < 0
 	if r == '-' {
-		if e.Min >= 0 {
+		if e.min >= 0 {
 			return
 		}
 		// allow '-' only if it's first char
@@ -225,56 +225,56 @@ func (e *MGNumericEntry) updateValueFromText() {
 	if err != nil {
 		return
 	}
-	if v < e.Min {
-		v = e.Min
+	if v < e.min {
+		v = e.min
 	}
-	if v > e.Max {
-		v = e.Max
+	if v > e.max {
+		v = e.max
 	}
-	if v != e.Value {
-		e.Value = v
+	if v != e.value {
+		e.value = v
 		if e.OnChanged != nil {
-			e.OnChanged(e.Value)
+			e.OnChanged(e.value)
 		}
 	}
 	// keep displayed text clamped (se necessário)
-	if fmt.Sprintf("%d", e.Value) != txt {
-		e.Entry.SetText(fmt.Sprintf("%d", e.Value))
+	if fmt.Sprintf("%d", e.value) != txt {
+		e.Entry.SetText(fmt.Sprintf("%d", e.value))
 	}
 }
 
 func (e *MGNumericEntry) GetValue() int {
-	return e.Value
+	return e.value
 }
 
 func (e *MGNumericEntry) SetValue(v int) {
-	if v < e.Min {
-		v = e.Min
+	if v < e.min {
+		v = e.min
 	}
-	if v > e.Max {
-		v = e.Max
+	if v > e.max {
+		v = e.max
 	}
-	e.Value = v
+	e.value = v
 	fyne.Do(func() {
-		e.Entry.SetText(fmt.Sprintf("%d", e.Value))
+		e.Entry.SetText(fmt.Sprintf("%d", e.value))
 	})
 	if e.OnChanged != nil {
-		e.OnChanged(e.Value)
+		e.OnChanged(e.value)
 	}
 }
 
-func (e *MGNumericEntry) Increment() {
-	next := e.Value + e.Step
-	if next > e.Max {
-		next = e.Max
+func (e *MGNumericEntry) increment() {
+	next := e.value + e.step
+	if next > e.max {
+		next = e.max
 	}
 	e.SetValue(next)
 }
 
-func (e *MGNumericEntry) Decrement() {
-	next := e.Value - e.Step
-	if next < e.Min {
-		next = e.Min
+func (e *MGNumericEntry) decrement() {
+	next := e.value - e.step
+	if next < e.min {
+		next = e.min
 	}
 	e.SetValue(next)
 }
@@ -284,8 +284,8 @@ func (e *MGNumericEntry) Decrement() {
 func NewMGNumericEntryWithButtons(min, max, initial int) (fyne.CanvasObject, *MGNumericEntry) {
 	entry := NewMGNumericEntry(min, max, initial)
 
-	up := NewMGSmallButton("▲", func() { entry.Increment() })
-	down := NewMGSmallButton("▼", func() { entry.Decrement() })
+	up := newMGSmallButton("▲", func() { entry.increment() })
+	down := newMGSmallButton("▼", func() { entry.decrement() })
 
 	// container vertical com sem espaçamento extra
 	spin := container.NewVBox(up, down)
